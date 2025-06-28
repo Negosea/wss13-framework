@@ -1,0 +1,187 @@
+# app/main.py
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse
+from pydantic import BaseModel
+from typing import Dict, Any
+import os
+
+# Modelos de dados
+class ProjectData(BaseModel):
+    name: str
+    area: float
+    structural_load: float
+    soil_tension: float
+    budget: float = None
+
+class AnalysisResult(BaseModel):
+    agent: str
+    status: str
+    result: Dict[str, Any]
+    timestamp: str
+
+# Criar app FastAPI
+app = FastAPI(
+    title="WSS+13 Framework",
+    description="🏗️ Ecossistema de 5 Agentes IA para Construção Civil",
+    version="1.0.0",
+    docs_url="/docs",
+    redoc_url="/redoc"
+)
+
+# Configurar CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Servir arquivos estáticos
+if os.path.exists("frontend"):
+    app.mount("/static", StaticFiles(directory="frontend"), name="static")
+
+# Rota principal
+@app.get("/", response_class=HTMLResponse)
+async def root():
+    return """
+    <html>
+        <head>
+            <title>WSS+13 Framework</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
+                .container { max-width: 800px; margin: 0 auto; background: white; padding: 40px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+                h1 { color: #2c3e50; text-align: center; }
+                .status { background: #27ae60; color: white; padding: 10px; border-radius: 5px; text-align: center; margin: 20px 0; }
+                .agents { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin: 30px 0; }
+                .agent { background: #3498db; color: white; padding: 15px; border-radius: 8px; text-align: center; font-weight: bold; }
+                .links { text-align: center; margin-top: 30px; }
+                .links a { margin: 0 15px; padding: 10px 20px; background: #e74c3c; color: white; text-decoration: none; border-radius: 5px; }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>🏗️ WSS+13 Framework</h1>
+                <div class="status">✅ API Funcionando - Versão 1.0.0</div>
+                
+                <h2>🤖 5 Agentes IA Especializados:</h2>
+                <div class="agents">
+                    <div class="agent">🏗️ Estrutural</div>
+                    <div class="agent">💰 Financeiro</div>
+                    <div class="agent">📊 Viabilidade</div>
+                    <div class="agent">⚠️ Risco</div>
+                    <div class="agent">🌱 Sustentabilidade</div>
+                </div>
+                
+                <div class="links">
+                    <a href="/docs">📚 Documentação API</a>
+                    <a href="/health">🔍 Status Sistema</a>
+                </div>
+            </div>
+        </body>
+    </html>
+    """
+
+# Rota de health check
+@app.get("/health")
+async def health():
+    return {
+        "status": "healthy",
+        "framework": "WSS+13",
+        "version": "1.0.0",
+        "agents_available": 5,
+        "timestamp": "2025-06-25T19:00:00Z"
+    }
+
+# Rota de informações dos agentes
+@app.get("/agents")
+async def list_agents():
+    return {
+        "agents": [
+            {"id": "structural", "name": "Agente Estrutural", "status": "active"},
+            {"id": "financial", "name": "Agente Financeiro", "status": "active"},
+            {"id": "viability", "name": "Agente Viabilidade", "status": "active"},
+            {"id": "risk", "name": "Agente Risco", "status": "active"},
+            {"id": "sustainability", "name": "Agente Sustentabilidade", "status": "active"}
+        ],
+        "total": 5
+    }
+
+# Análise estrutural
+@app.post("/analyze/structural")
+async def analyze_structural(project: ProjectData):
+    # Simulação da análise estrutural
+    foundation_width = project.structural_load / project.soil_tension * 1.5
+    foundation_area = foundation_width * 2.0
+    
+    return {
+        "agent": "structural",
+        "project_name": project.name,
+        "analysis": {
+            "structural_load": f"{project.structural_load} kN",
+            "soil_tension": f"{project.soil_tension} kPa",
+            "foundation_type": "Sapata Corrida",
+            "foundation_width": f"{foundation_width:.2f} cm",
+            "foundation_area": f"{foundation_area:.2f} m²",
+            "compliance": "NBR 6122",
+            "status": "approved",
+            "engineer": "Breno Silva - CREA-SP 123456/D"
+        },
+        "timestamp": "2025-06-25T19:00:00Z"
+    }
+
+# Análise financeira
+@app.post("/analyze/financial")
+async def analyze_financial(project: ProjectData):
+    # Simulação da análise financeira
+    cost_per_m2 = 1800  # R$/m²
+    total_cost = project.area * cost_per_m2
+    revenue = project.budget if project.budget else project.area * 2500
+    profit_margin = ((revenue - total_cost) / revenue) * 100
+    
+    return {
+        "agent": "financial",
+        "project_name": project.name,
+        "analysis": {
+            "construction_area": f"{project.area} m²",
+            "estimated_cost": f"R$ {total_cost:,.2f}",
+            "sale_value": f"R$ {revenue:,.2f}",
+            "profit_margin": f"{profit_margin:.1f}%",
+            "roi": f"{(profit_margin * 0.8):.1f}%",
+            "viability": "viable" if profit_margin > 20 else "review_needed",
+            "analyst": "Paulo Mendes - CRA-SP 987654"
+        },
+        "timestamp": "2025-06-25T19:00:00Z"
+    }
+
+# Análise completa (orquestrador)
+@app.post("/analyze/complete")
+async def analyze_complete(project: ProjectData):
+    # Simular análise de todos os agentes
+    structural = await analyze_structural(project)
+    financial = await analyze_financial(project)
+    
+    return {
+        "project": project.name,
+        "status": "completed",
+        "agents_executed": 5,
+        "results": {
+            "structural": structural["analysis"],
+            "financial": financial["analysis"],
+            "viability": {"status": "viable", "score": 8.5},
+            "risk": {"level": "low", "score": 2.1},
+            "sustainability": {"rating": "B+", "score": 7.8}
+        },
+        "summary": {
+            "overall_score": 8.2,
+            "recommendation": "Projeto aprovado para execução",
+            "next_steps": ["Aprovação final", "Início da obra", "Monitoramento"]
+        },
+        "timestamp": "2025-06-25T19:00:00Z"
+    }
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)

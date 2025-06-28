@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Framework Revolucionário para Construção Civil - Ecossistema de Agentes IA que automatiza análises de projetos com precisão e eficiência">
+    <title>Framework Revolucionário | Automação Inteligente para Construção Civil</title>
+    
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #0ea5e9;
+            --primary-dark: #0284c7;
+            --secondary: #0f766e;
+            --accent: #22d3ee;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            line-height: 1.6;
+            background-color: var(--light);
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        a:hover {
+            color: var(--primary-dark);
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: var(--primary);
+            color: white;
+            border-radius: 6px;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-secondary {
+            background: var(--secondary);
+        }
+        
+        .btn-secondary:hover {
+            background: #0c5a52;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Header */
+        .header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header__container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+        
+        .nav__list {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav__item {
+            margin-left: 30px;
+        }
+        
+        .nav__link {
+            font-weight: 500;
+            color: var(--dark);
+            position: relative;
+        }
+        
+        .nav__link:after {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+        
+        .nav__link:hover:after {
+            width: 100%;
+        }
+        
+        .nav__link.active {
+            color: var(--primary);
+        }
+        
+        .nav__link.active:after {
+            width: 100%;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #0ea5e9, #0f766e);
+            color: white;
+            padding-top: 160px;
+            padding-bottom: 100px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero__container {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .hero__content {
+            max-width: 600px;
+        }
+        
+        .hero__title {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        .hero__subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        
+        .hero__buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+            background-color: white;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .features__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background: #f1f5f9;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .feature-title {
+            font-size: 1.25rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .feature-description {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+        
+        /* Benefits Section */
+        .benefits {
+            padding: 100px 0;
+            background-color: var(--light);
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .benefit-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .benefit-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .benefit-title {
+            font-size: 1.25rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .benefit-description {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 80px 0 30px;
+        }
+        
+        .footer__bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 30px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+        
+        .footer__copyright {
+            margin-bottom: 10px;
+        }
+        
+        .footer__update {
+            font-size: 0.8rem;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .features__grid,
+            .benefits-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header__container {
+                flex-direction: column;
+                height: auto;
+                padding: 20px 0;
+            }
+            
+            .logo {
+                margin-bottom: 20px;
+            }
+            
+            .nav__list {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav__item {
+                margin: 10px 0;
+            }
+            
+            .hero {
+                padding-top: 200px;
+            }
+            
+            .hero__title {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero__title {
+                font-size: 2rem;
+            }
+            
+            .hero__subtitle {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.75rem;
+            }
+            
+            .feature-card,
+            .benefit-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container header__container">
+            <a href="#" class="logo">
+                <i class="fas fa-building"></i>
+                Framework Revolucionário
+            </a>
+            
+            <nav class="nav">
+                <ul class="nav__list">
+                    <li class="nav__item"><a href="#" class="nav__link active">Início</a></li>
+                    <li class="nav__item"><a href="#features" class="nav__link">Recursos</a></li>
+                    <li class="nav__item"><a href="#benefits" class="nav__link">Benefícios</a></li>
+                    <li class="nav__item"><a href="#contact" class="nav__link">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="container hero__container">
+            <div class="hero__content">
+                <h1 class="hero__title">Framework Revolucionário para Construção Civil</h1>
+                <p class="hero__subtitle">Um ecossistema de agentes de IA que automatiza análises de projetos com precisão e eficiência sem precedentes.</p>
+                <div class="hero__buttons">
+                    <a href="#features" class="btn">Conheça os Recursos</a>
+                    <a href="#contact" class="btn btn-outline">Solicitar Demonstração</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Recursos Poderosos</h2>
+                <p class="section-subtitle">Nosso framework combina tecnologias de ponta para transformar completamente o processo de análise de projetos na construção civil.</p>
+            </div>
+            
+            <div class="features__grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="feature-title">Agentes IA Especializados</h3>
+                    <p class="feature-description">Cinco agentes de IA trabalhando em conjunto, cada um especializado em um aspecto crítico da análise de projetos de construção.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Análise Ultrarrápida</h3>
+                    <p class="feature-description">Reduza o tempo de análise em até 90%, permitindo decisões mais rápidas e maior produtividade.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3 class="feature-title">Conformidade Garantida</h3>
+                    <p class="feature-description">Garantia de 100% de conformidade com todas as normas NBR relevantes para construção civil.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="benefits">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Benefícios Comprovados</h2>
+                <p class="section-subtitle">Nossos clientes experimentam resultados transformadores ao implementar o Framework Revolucionário.</p>
+            </div>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-number">90%</div>
+                    <h3 class="benefit-title">Redução no Tempo</h3>
+                    <p class="benefit-description">Análises completas em uma fração do tempo tradicional.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-number">100%</div>
+                    <h3 class="benefit-title">Conformidade NBR</h3>
+                    <p class="benefit-description">Garantia de conformidade com todas as normas relevantes.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-number">65%</div>
+                    <h3 class="benefit-title">Redução de Custos</h3>
+                    <p class="benefit-description">Economia significativa em recursos humanos e materiais.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer class="footer">
+        <div class="footer__bottom">
+            <div class="container">
+                <p class="footer__copyright">© 2025 Marcos Sea. Todos os direitos reservados.</p>
+                <p class="footer__update">Última atualização: 24/06/2025 22:45</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

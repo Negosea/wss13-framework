@@ -3,8 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WSS+13 Framework - Ecossistema de Agentes IA</title>
+    <title>WSS+13 Framework - Dashboard Profissional</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --info-color: #17a2b8;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -15,12 +31,12 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             min-height: 100vh;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -42,12 +58,64 @@
             opacity: 0.9;
         }
 
+        .status-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success-color);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
         .main-content {
             background: white;
             border-radius: 20px;
             padding: 40px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            box-shadow: var(--box-shadow);
             margin-bottom: 30px;
+        }
+
+        .agents-section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--dark-color);
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .section-title p {
+            color: #666;
+            font-size: 1.1rem;
         }
 
         .agents-grid {
@@ -58,16 +126,39 @@
         }
 
         .agent-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             color: white;
             padding: 25px;
-            border-radius: 15px;
+            border-radius: var(--border-radius);
             text-align: center;
-            transition: transform 0.3s ease;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .agent-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .agent-card:hover::before {
+            left: 100%;
         }
 
         .agent-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .agent-avatar {
+            font-size: 3rem;
+            margin-bottom: 15px;
         }
 
         .agent-card h3 {
@@ -78,19 +169,24 @@
         .agent-card p {
             opacity: 0.9;
             font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .agent-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-top: 10px;
         }
 
         .form-section {
-            background: #f8f9fa;
+            background: var(--light-color);
             padding: 30px;
-            border-radius: 15px;
+            border-radius: var(--border-radius);
             margin: 30px 0;
-        }
-
-        .form-section h2 {
-            color: #333;
-            margin-bottom: 20px;
-            text-align: center;
+            border: 1px solid #e9ecef;
         }
 
         .form-grid {
@@ -106,52 +202,388 @@
         }
 
         .form-group label {
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #555;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .form-group input {
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
+            padding: 12px 16px;
+            border: 2px solid #e9ecef;
+            border-radius: var(--border-radius);
             font-size: 1rem;
-            transition: border-color 0.3s ease;
+            transition: var(--transition);
+            background: white;
         }
 
         .form-group input:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .buttons-section {
+            margin: 30px 0;
         }
 
         .buttons-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
-            margin: 20px 0;
+            margin-bottom: 20px;
         }
 
         .btn {
             padding: 15px 25px;
             border: none;
-            border-radius: 10px;
+            border-radius: var(--border-radius);
             font-size: 1rem;
-            font-weight: bold;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             text-decoration: none;
-            display: inline-block;
-            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             color: white;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-complete {
+            background: linear-gradient(135deg, var(--success-color) 0%, #20c997 100%);
+            color: white;
+            grid-column: 1 / -1;
+            font-size: 1.1rem;
+            padding: 18px 30px;
+        }
+
+        .btn-complete:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+        }
+
+        .progress-section {
+            margin: 30px 0;
+            display: none;
+        }
+
+        .progress-section.show {
+            display: block;
+        }
+
+        .analysis-progress {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            position: relative;
+        }
+
+        .progress-step::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 60%;
+            width: 80%;
+            height: 2px;
+            background: #e9ecef;
+            z-index: 1;
+        }
+
+        .progress-step:last-child::after {
+            display: none;
+        }
+
+        .progress-step.completed::after {
+            background: var(--success-color);
+        }
+
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            z-index: 2;
+            position: relative;
+        }
+
+        .progress-step.pending .step-icon {
+            background: #e9ecef;
+            color: #6c757d;
+        }
+
+        .progress-step.active .step-icon {
+            background: var(--warning-color);
+            color: white;
+            animation: pulse 1.5s infinite;
+        }
+
+        .progress-step.completed .step-icon {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .step-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            display: none;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .results-section {
+            margin: 30px 0;
+            display: none;
+        }
+
+        .results-section.show {
+            display: block;
+        }
+
+        .results-grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .agent-result-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--box-shadow);
+            border-left: 4px solid var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .agent-result-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+
+        .agent-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .agent-avatar-result {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .agent-info {
+            flex: 1;
+        }
+
+        .agent-info h4 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: var(--dark-color);
+        }
+
+        .agent-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-badge.approved {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-badge.warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-badge.rejected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .metric-card {
+            background: var(--light-color);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .metric-card:hover {
+            background: #e9ecef;
+        }
+
+        .metric-icon {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .metric-value {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .recommendation {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-top: 15px;
+            border-left: 4px solid var(--success-color);
+        }
+
+        .recommendation h5 {
+            color: var(--success-color);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .charts-section {
+            margin: 30px 0;
+            display: none;
+        }
+
+        .charts-section.show {
+            display: block;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .chart-card {
+            background: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .chart-title {
+            text-align: center;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+            font-weight: 600;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+        }
+
+        .footer p {
+            margin-bottom: 5px;
+        }
+
+        .api-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
         }
 
         .btn-secondary {
@@ -164,183 +596,290 @@
             transform: translateY(-2px);
         }
 
-        .results-section {
-            background: #e8f5e8;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            display: none;
-        }
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
 
-        .results-section.show {
-            display: block;
-        }
+            .header h1 {
+                font-size: 2rem;
+            }
 
-        .loading {
-            text-align: center;
-            padding: 20px;
-            display: none;
-        }
+            .main-content {
+                padding: 20px;
+            }
 
-        .loading.show {
-            display: block;
-        }
+            .agents-grid {
+                grid-template-columns: 1fr;
+            }
 
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 10px;
-        }
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+            .buttons-grid {
+                grid-template-columns: 1fr;
+            }
 
-        .footer {
-            text-align: center;
-            color: white;
-            margin-top: 40px;
-        }
+            .analysis-progress {
+                flex-direction: column;
+                gap: 20px;
+            }
 
-        .status-indicator {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            background: #28a745;
-            border-radius: 50%;
-            margin-right: 5px;
+            .progress-step::after {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🏗️ WSS+13 Framework</h1>
-            <p>Ecossistema de 5 Agentes IA para Construção Civil</p>
-            <p><span class="status-indicator"></span>Sistema Online</p>
+            <h1><i class="fas fa-building"></i> WSS+13 Framework</h1>
+            <p>Dashboard Profissional - Ecossistema de Agentes IA</p>
+            <div class="status-bar">
+                <div class="status-indicator">
+                    <div class="status-dot"></div>
+                    <span>Sistema Online</span>
+                </div>
+                <div class="status-indicator">
+                    <i class="fas fa-robot"></i>
+                    <span>5 Agentes Ativos</span>
+                </div>
+                <div class="status-indicator">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard v2.0</span>
+                </div>
+            </div>
         </div>
 
         <div class="main-content">
-            <h2 style="text-align: center; margin-bottom: 30px;">🤖 Nossos Agentes Especializados</h2>
-            
-            <div class="agents-grid">
-                <div class="agent-card">
-                    <h3>🏗️ Breno Silva</h3>
-                    <p><strong>Engenheiro Estrutural</strong></p>
-                    <p>CREA-SP 123456/D</p>
-                    <p>25 anos de experiência</p>
+            <div class="agents-section">
+                <div class="section-title">
+                    <h2><i class="fas fa-users"></i> Nossos Especialistas</h2>
+                    <p>Equipe de agentes IA especializados em construção civil</p>
                 </div>
                 
-                <div class="agent-card">
-                    <h3>💰 Paulo Mendes</h3>
-                    <p><strong>Analista Financeiro</strong></p>
-                    <p>CRC-SP 654321</p>
-                    <p>15 anos de experiência</p>
-                </div>
-                
-                <div class="agent-card">
-                    <h3>👷 José Silva</h3>
-                    <p><strong>Mestre de Obras</strong></p>
-                    <p>SINDUSCON-SP 789123</p>
-                    <p>20 anos de experiência</p>
-                </div>
-                
-                <div class="agent-card">
-                    <h3>⚠️ Ricardo Proteção</h3>
-                    <p><strong>Eng. Segurança</strong></p>
-                    <p>CREA-SP 456789/D</p>
-                    <p>18 anos de experiência</p>
-                </div>
-                
-                <div class="agent-card">
-                    <h3>💼 Helena Vendas</h3>
-                    <p><strong>Diretora Comercial</strong></p>
-                    <p>CRA-SP 987321</p>
-                    <p>12 anos de experiência</p>
+                <div class="agents-grid">
+                    <div class="agent-card">
+                        <div class="agent-avatar">🏗️</div>
+                        <h3>Breno Silva</h3>
+                        <p><strong>Engenheiro Estrutural</strong></p>
+                        <p>CREA-SP 123456/D</p>
+                        <p>25 anos de experiência</p>
+                        <div class="agent-badge">Especialista em Fundações</div>
+                    </div>
+                    
+                    <div class="agent-card">
+                        <div class="agent-avatar">💰</div>
+                        <h3>Paulo Mendes</h3>
+                        <p><strong>Analista Financeiro</strong></p>
+                        <p>CRC-SP 654321</p>
+                        <p>15 anos de experiência</p>
+                        <div class="agent-badge">Especialista em Orçamentos</div>
+                    </div>
+                    
+                    <div class="agent-card">
+                        <div class="agent-avatar">👷</div>
+                        <h3>José Silva</h3>
+                        <p><strong>Mestre de Obras</strong></p>
+                        <p>SINDUSCON-SP 789123</p>
+                        <p>20 anos de experiência</p>
+                        <div class="agent-badge">Especialista em Execução</div>
+                    </div>
+                    
+                    <div class="agent-card">
+                        <div class="agent-avatar">⚠️</div>
+                        <h3>Ricardo Proteção</h3>
+                        <p><strong>Eng. Segurança</strong></p>
+                        <p>CREA-SP 456789/D</p>
+                        <p>18 anos de experiência</p>
+                        <div class="agent-badge">Especialista em NR-18</div>
+                    </div>
+                    
+                    <div class="agent-card">
+                        <div class="agent-avatar">💼</div>
+                        <h3>Helena Vendas</h3>
+                        <p><strong>Diretora Comercial</strong></p>
+                        <p>CRA-SP 987321</p>
+                        <p>12 anos de experiência</p>
+                        <div class="agent-badge">Especialista em Mercado</div>
+                    </div>
                 </div>
             </div>
 
             <div class="form-section">
-                <h2>📊 Analisar Seu Projeto</h2>
+                <div class="section-title">
+                    <h2><i class="fas fa-clipboard-list"></i> Análise de Projeto</h2>
+                    <p>Preencha os dados do seu projeto para análise completa</p>
+                </div>
+                
                 <form id="projectForm">
                     <div class="form-grid">
                         <div class="form-group">
-                            <label for="projectName">Nome do Projeto:</label>
-                            <input type="text" id="projectName" name="name" required placeholder="Ex: Residência Familiar">
+                            <label for="projectName">
+                                <i class="fas fa-home"></i>
+                                Nome do Projeto:
+                            </label>
+                            <input type="text" id="projectName" name="name" required placeholder="Ex: Residência Familiar Silva">
                         </div>
                         
                         <div class="form-group">
-                            <label for="area">Área (m²):</label>
+                            <label for="area">
+                                <i class="fas fa-ruler-combined"></i>
+                                Área (m²):
+                            </label>
                             <input type="number" id="area" name="area" required placeholder="Ex: 120" min="1">
                         </div>
                         
                         <div class="form-group">
-                            <label for="structuralLoad">Carga Estrutural (kN):</label>
+                            <label for="structuralLoad">
+                                <i class="fas fa-weight-hanging"></i>
+                                Carga Estrutural (kN):
+                            </label>
                             <input type="number" id="structuralLoad" name="structural_load" required placeholder="Ex: 600" min="1">
                         </div>
                         
                         <div class="form-group">
-                            <label for="soilTension">Tensão do Solo (kPa):</label>
+                            <label for="soilTension">
+                                <i class="fas fa-mountain"></i>
+                                Tensão do Solo (kPa):
+                            </label>
                             <input type="number" id="soilTension" name="soil_tension" required placeholder="Ex: 45" min="1">
                         </div>
                         
                         <div class="form-group">
-                            <label for="budget">Orçamento (R$) - Opcional:</label>
+                            <label for="budget">
+                                <i class="fas fa-dollar-sign"></i>
+                                Orçamento (R$) - Opcional:
+                            </label>
                             <input type="number" id="budget" name="budget" placeholder="Ex: 300000" min="0">
                         </div>
                     </div>
 
-                    <div class="buttons-grid">
-                        <button type="button" class="btn btn-primary" onclick="analyzeAgent('structural')">
-                            🏗️ Análise Estrutural
-                        </button>
-                        <button type="button" class="btn btn-primary" onclick="analyzeAgent('financial')">
-                            💰 Análise Financeira
-                        </button>
-                        <button type="button" class="btn btn-primary" onclick="analyzeAgent('construction')">
-                            👷 Análise de Obra
-                        </button>
-                        <button type="button" class="btn btn-primary" onclick="analyzeAgent('safety')">
-                            ⚠️ Análise de Segurança
-                        </button>
-                        <button type="button" class="btn btn-primary" onclick="analyzeAgent('commercial')">
-                            💼 Análise Comercial
-                        </button>
-                        <button type="button" class="btn btn-secondary" onclick="analyzeComplete()">
-                            🚀 Análise Completa (Todos os Agentes)
-                        </button>
+                    <div class="buttons-section">
+                        <div class="section-title">
+                            <h3><i class="fas fa-play"></i> Análises Individuais</h3>
+                        </div>
+                        
+                        <div class="buttons-grid">
+                            <button type="button" class="btn btn-primary" onclick="analyzeAgent('structural')">
+                                <i class="fas fa-building"></i>
+                                Análise Estrutural
+                            </button>
+                            <button type="button" class="btn btn-primary" onclick="analyzeAgent('financial')">
+                                <i class="fas fa-chart-line"></i>
+                                Análise Financeira
+                            </button>
+                            <button type="button" class="btn btn-primary" onclick="analyzeAgent('construction')">
+                                <i class="fas fa-hard-hat"></i>
+                                Análise de Obra
+                            </button>
+                            <button type="button" class="btn btn-primary" onclick="analyzeAgent('safety')">
+                                <i class="fas fa-shield-alt"></i>
+                                Análise de Segurança
+                            </button>
+                            <button type="button" class="btn btn-primary" onclick="analyzeAgent('commercial')">
+                                <i class="fas fa-handshake"></i>
+                                Análise Comercial
+                            </button>
+                            <button type="button" class="btn btn-complete" onclick="analyzeComplete()">
+                                <i class="fas fa-rocket"></i>
+                                Análise Completa - Todos os Agentes
+                            </button>
+                        </div>
                     </div>
                 </form>
 
+                <div class="progress-section" id="progressSection">
+                    <div class="section-title">
+                        <h3><i class="fas fa-tasks"></i> Progresso da Análise</h3>
+                    </div>
+                    <div class="analysis-progress" id="analysisProgress">
+                        <div class="progress-step pending" id="step-structural">
+                            <div class="step-icon">🏗️</div>
+                            <div class="step-label">Estrutural</div>
+                        </div>
+                        <div class="progress-step pending" id="step-financial">
+                            <div class="step-icon">💰</div>
+                            <div class="step-label">Financeiro</div>
+                        </div>
+                        <div class="progress-step pending" id="step-construction">
+                            <div class="step-icon">👷</div>
+                            <div class="step-label">Construção</div>
+                        </div>
+                        <div class="progress-step pending" id="step-safety">
+                            <div class="step-icon">⚠️</div>
+                            <div class="step-label">Segurança</div>
+                        </div>
+                        <div class="progress-step pending" id="step-commercial">
+                            <div class="step-icon">💼</div>
+                            <div class="step-label">Comercial</div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="loading" id="loading">
                     <div class="spinner"></div>
-                    <p>Processando análise...</p>
+                    <h3><i class="fas fa-cog fa-spin"></i> Processando Análise...</h3>
+                    <p>Nossos agentes estão analisando seu projeto</p>
                 </div>
 
                 <div class="results-section" id="results">
-                    <h3>📋 Resultados da Análise</h3>
-                    <div id="resultsContent"></div>
+                    <div class="section-title">
+                        <h2><i class="fas fa-chart-bar"></i> Resultados da Análise</h2>
+                        <p>Relatório detalhado dos nossos especialistas</p>
+                    </div>
+                    <div class="results-grid" id="resultsContent"></div>
+                </div>
+
+                <div class="charts-section" id="chartsSection">
+                    <div class="section-title">
+                        <h2><i class="fas fa-chart-pie"></i> Dashboard de Métricas</h2>
+                        <p>Visualização gráfica dos resultados</p>
+                    </div>
+                    <div class="charts-grid">
+                        <div class="chart-card">
+                            <div class="chart-title">Distribuição de Custos</div>
+                            <canvas id="costChart" width="300" height="200"></canvas>
+                        </div>
+                        <div class="chart-card">
+                            <div class="chart-title">Timeline de Execução</div>
+                            <canvas id="timelineChart" width="300" height="200"></canvas>
+                        </div>
+                        <div class="chart-card">
+                            <div class="chart-title">Análise de Riscos</div>
+                            <canvas id="riskChart" width="300" height="200"></canvas>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div style="text-align: center; margin: 30px 0;">
-                <a href="/docs" class="btn btn-secondary">📚 Documentação da API</a>
-                <a href="/health" class="btn btn-secondary">🔍 Status do Sistema</a>
+            <div class="api-links">
+                <a href="/docs" class="btn btn-secondary">
+                    <i class="fas fa-book"></i>
+                    Documentação da API
+                </a>
+                <a href="/health" class="btn btn-secondary">
+                    <i class="fas fa-heartbeat"></i>
+                    Status do Sistema
+                </a>
             </div>
         </div>
 
         <div class="footer">
-            <p>Desenvolvido por <strong>Marcos Sea</strong></p>
+            <p><i class="fas fa-code"></i> Desenvolvido por <strong>Marcos Sea</strong></p>
             <p>WSS+13 Framework - Revolucionando a Construção Civil com IA</p>
+            <p><i class="fas fa-calendar"></i> Dashboard v2.0 - 2025</p>
         </div>
     </div>
 
     <script>
+        // Variáveis globais
+        let currentAnalysisType = '';
+        let analysisResults = {};
+
         // Função para coletar dados do formulário
         function getFormData() {
             const form = document.getElementById('projectForm');
@@ -360,11 +899,140 @@
         function showLoading() {
             document.getElementById('loading').classList.add('show');
             document.getElementById('results').classList.remove('show');
+            document.getElementById('chartsSection').classList.remove('show');
         }
 
         // Função para esconder loading
         function hideLoading() {
             document.getElementById('loading').classList.remove('show');
+        }
+
+        // Função para atualizar progresso
+        function updateProgress(step, status) {
+            const stepElement = document.getElementById(`step-${step}`);
+            if (stepElement) {
+                stepElement.className = `progress-step ${status}`;
+            }
+            document.getElementById('progressSection').classList.add('show');
+        }
+
+        // Função para resetar progresso
+        function resetProgress() {
+            const steps = ['structural', 'financial', 'construction', 'safety', 'commercial'];
+            steps.forEach(step => {
+                const stepElement = document.getElementById(`step-${step}`);
+                if (stepElement) {
+                    stepElement.className = 'progress-step pending';
+                }
+            });
+        }
+
+        // Função para criar card de resultado
+        function createResultCard(data) {
+            const agentIcons = {
+                'structural': '🏗️',
+                'financial': '💰',
+                'construction': '👷',
+                'safety': '⚠️',
+                'commercial': '💼'
+            };
+
+            const agentNames = {
+                'structural': 'Breno Silva',
+                'financial': 'Paulo Mendes',
+                'construction': 'José Silva',
+                'safety': 'Ricardo Proteção',
+                'commercial': 'Helena Vendas'
+            };
+
+            const statusClass = data.analysis?.status === 'approved' ? 'approved' : 
+                               data.analysis?.status === 'warning' ? 'warning' : 'rejected';
+
+            return `
+                <div class="agent-result-card">
+                    <div class="agent-header">
+                        <div class="agent-avatar-result">
+                            ${agentIcons[data.agent] || '��'}
+                        </div>
+                        <div class="agent-info">
+                            <h4>${data.agent_name || agentNames[data.agent] || 'Agente IA'}</h4>
+                            <p>${data.agent_role || 'Especialista'}</p>
+                        </div>
+                        <div class="status-badge ${statusClass}">
+                            ${data.analysis?.status || 'Analisado'}
+                        </div>
+                    </div>
+                    
+                    <div class="metrics-grid">
+                        ${createMetrics(data)}
+                    </div>
+                    
+                    <div class="recommendation">
+                        <h5><i class="fas fa-lightbulb"></i> Recomendação:</h5>
+                        <p>${data.analysis?.observations || 'Análise concluída com sucesso'}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Função para criar métricas
+        function createMetrics(data) {
+            let metrics = '';
+            
+            if (data.analysis) {
+                Object.entries(data.analysis).forEach(([key, value]) => {
+                    if (key !== 'observations' && key !== 'status') {
+                        const icon = getMetricIcon(key);
+                        const label = getMetricLabel(key);
+                        
+                        metrics += `
+                            <div class="metric-card">
+                                <div class="metric-icon">${icon}</div>
+                                <div class="metric-value">${value}</div>
+                                <div class="metric-label">${label}</div>
+                            </div>
+                        `;
+                    }
+                });
+            }
+            
+            return metrics;
+        }
+
+        // Função para obter ícone da métrica
+        function getMetricIcon(key) {
+            const icons = {
+                'structural_load': '⚖️',
+                'soil_tension': '🏔️',
+                'foundation_type': '🏗️',
+                'safety_factor': '🛡️',
+                'budget_analysis': '💰',
+                'cost_per_m2': '📊',
+                'construction_time': '⏰',
+                'team_size': '👥',
+                'risk_level': '⚠️',
+                'market_value': '💎',
+                'sales_forecast': '📈'
+            };
+            return icons[key] || '📋';
+        }
+
+        // Função para obter label da métrica
+        function getMetricLabel(key) {
+            const labels = {
+                'structural_load': 'Carga Estrutural',
+                'soil_tension': 'Tensão do Solo',
+                'foundation_type': 'Tipo de Fundação',
+                'safety_factor': 'Fator de Segurança',
+                'budget_analysis': 'Análise Orçamentária',
+                'cost_per_m2': 'Custo por m²',
+                'construction_time': 'Tempo de Obra',
+                'team_size': 'Equipe',
+                'risk_level': 'Nível de Risco',
+                'market_value': 'Valor de Mercado',
+                'sales_forecast': 'Previsão de Vendas'
+            };
+            return labels[key] || key.replace('_', ' ');
         }
 
         // Função para mostrar resultados
@@ -373,9 +1041,83 @@
             const resultsDiv = document.getElementById('results');
             const contentDiv = document.getElementById('resultsContent');
             
-            contentDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            if (Array.isArray(data)) {
+                // Múltiplos agentes
+                contentDiv.innerHTML = data.map(result => createResultCard(result)).join('');
+                createCharts(data);
+            } else {
+                // Agente único
+                contentDiv.innerHTML = createResultCard(data);
+                updateProgress(data.agent, 'completed');
+            }
+            
             resultsDiv.classList.add('show');
             resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Função para criar gráficos
+        function createCharts(data) {
+            document.getElementById('chartsSection').classList.add('show');
+            
+            // Gráfico de custos
+            const costCtx = document.getElementById('costChart').getContext('2d');
+            new Chart(costCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Material', 'Mão de Obra', 'Equipamentos', 'Outros'],
+                    datasets: [{
+                        data: [40, 35, 15, 10],
+                        backgroundColor: ['#667eea', '#764ba2', '#28a745', '#ffc107']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+
+            // Gráfico de timeline
+            const timelineCtx = document.getElementById('timelineChart').getContext('2d');
+            new Chart(timelineCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Fundação', 'Estrutura', 'Vedação', 'Acabamento'],
+                    datasets: [{
+                        label: 'Meses',
+                        data: [3, 4, 5, 5],
+                        backgroundColor: '#667eea'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+
+            // Gráfico de riscos
+            const riskCtx = document.getElementById('riskChart').getContext('2d');
+            new Chart(riskCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['Estrutural', 'Financeiro', 'Cronograma', 'Segurança', 'Mercado'],
+                    datasets: [{
+                        label: 'Nível de Risco',
+                        data: [2, 3, 4, 1, 3],
+                        backgroundColor: 'rgba(102, 126, 234, 0.2)',
+                        borderColor: '#667eea'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 5
+                        }
+                    }
+                }
+            });
         }
 
         // Função para analisar com um agente específico
@@ -387,6 +1129,9 @@
                 return;
             }
 
+            currentAnalysisType = agentType;
+            resetProgress();
+            updateProgress(agentType, 'active');
             showLoading();
 
             try {
@@ -403,9 +1148,11 @@
                 }
 
                 const result = await response.json();
+                analysisResults[agentType] = result;
                 showResults(result);
             } catch (error) {
                 hideLoading();
+                updateProgress(agentType, 'rejected');
                 alert(`Erro na análise: ${error.message}`);
             }
         }
@@ -419,9 +1166,20 @@
                 return;
             }
 
+            currentAnalysisType = 'complete';
+            resetProgress();
             showLoading();
 
+            // Simular progresso sequencial
+            const agents = ['structural', 'financial', 'construction', 'safety', 'commercial'];
+            
             try {
+                // Atualizar progresso visualmente
+                for (let i = 0; i < agents.length; i++) {
+                    updateProgress(agents[i], 'active');
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                }
+
                 const response = await fetch('/analyze/complete', {
                     method: 'POST',
                     headers: {
@@ -435,6 +1193,11 @@
                 }
 
                 const result = await response.json();
+                
+                // Marcar todos como completos
+                agents.forEach(agent => updateProgress(agent, 'completed'));
+                
+                analysisResults = result;
                 showResults(result);
             } catch (error) {
                 hideLoading();
@@ -450,6 +1213,11 @@
                 console.log('API Status:', health);
             } catch (error) {
                 console.error('API não está respondendo:', error);
+                // Atualizar indicador de status
+                const statusDot = document.querySelector('.status-dot');
+                if (statusDot) {
+                    statusDot.style.background = '#dc3545';
+                }
             }
         });
     </script>

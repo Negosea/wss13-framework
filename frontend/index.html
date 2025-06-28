@@ -3,511 +3,455 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Framework Revolucionário para Construção Civil - Ecossistema de Agentes IA que automatiza análises de projetos com precisão e eficiência">
-    <title>Framework Revolucionário | Automação Inteligente para Construção Civil</title>
-    
-    <!-- Fontes -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
-    
-    <!-- Ícones -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <title>WSS+13 Framework - Ecossistema de Agentes IA</title>
     <style>
-        :root {
-            --primary: #0ea5e9;
-            --primary-dark: #0284c7;
-            --secondary: #0f766e;
-            --accent: #22d3ee;
-            --dark: #0f172a;
-            --light: #f8fafc;
-            --gray: #64748b;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-        }
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            font-family: 'Inter', sans-serif;
-            color: var(--dark);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            background-color: var(--light);
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
         }
-        
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 700;
-            line-height: 1.2;
-        }
-        
-        a {
-            color: var(--primary);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        
-        a:hover {
-            color: var(--primary-dark);
-        }
-        
+
         .container {
-            width: 100%;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 20px;
         }
-        
-        .btn {
-            display: inline-block;
-            padding: 12px 24px;
-            background: var(--primary);
-            color: white;
-            border-radius: 6px;
-            font-weight: 600;
-            text-align: center;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-        }
-        
-        .btn:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-        
-        .btn-secondary {
-            background: var(--secondary);
-        }
-        
-        .btn-secondary:hover {
-            background: #0c5a52;
-        }
-        
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-        }
-        
-        .btn-outline:hover {
-            background: var(--primary);
-            color: white;
-        }
-        
-        /* Header */
+
         .header {
-            background-color: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .header__container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 80px;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--dark);
-        }
-        
-        .logo i {
-            margin-right: 10px;
-            color: var(--primary);
-        }
-        
-        .nav__list {
-            display: flex;
-            list-style: none;
-        }
-        
-        .nav__item {
-            margin-left: 30px;
-        }
-        
-        .nav__link {
-            font-weight: 500;
-            color: var(--dark);
-            position: relative;
-        }
-        
-        .nav__link:after {
-            content: "";
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -5px;
-            left: 0;
-            background-color: var(--primary);
-            transition: width 0.3s ease;
-        }
-        
-        .nav__link:hover:after {
-            width: 100%;
-        }
-        
-        .nav__link.active {
-            color: var(--primary);
-        }
-        
-        .nav__link.active:after {
-            width: 100%;
-        }
-        
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, #0ea5e9, #0f766e);
+            text-align: center;
             color: white;
-            padding-top: 160px;
-            padding-bottom: 100px;
-            position: relative;
-            overflow: hidden;
+            margin-bottom: 40px;
         }
-        
-        .hero__container {
-            position: relative;
-            z-index: 1;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
-        
-        .hero__content {
-            max-width: 600px;
-        }
-        
-        .hero__title {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            line-height: 1.2;
-        }
-        
-        .hero__subtitle {
-            font-size: 1.25rem;
-            margin-bottom: 30px;
+
+        .header p {
+            font-size: 1.2rem;
             opacity: 0.9;
         }
-        
-        .hero__buttons {
-            display: flex;
-            gap: 15px;
-        }
-        
-        /* Features Section */
-        .features {
-            padding: 100px 0;
-            background-color: white;
-        }
-        
-        .section-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-        
-        .section-title {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: var(--dark);
-        }
-        
-        .section-subtitle {
-            font-size: 1.1rem;
-            color: var(--gray);
-            max-width: 700px;
-            margin: 0 auto;
-        }
-        
-        .features__grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        
-        .feature-card {
-            background: #f1f5f9;
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-        }
-        
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-            color: white;
-            font-size: 1.5rem;
-        }
-        
-        .feature-title {
-            font-size: 1.25rem;
-            margin-bottom: 15px;
-            color: var(--dark);
-        }
-        
-        .feature-description {
-            color: var(--gray);
-            font-size: 0.95rem;
-        }
-        
-        /* Benefits Section */
-        .benefits {
-            padding: 100px 0;
-            background-color: var(--light);
-        }
-        
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        
-        .benefit-card {
+
+        .main-content {
             background: white;
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            text-align: center;
-            transition: all 0.3s ease;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
         }
-        
-        .benefit-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+
+        .agents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
         }
-        
-        .benefit-number {
-            font-size: 3rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 15px;
-        }
-        
-        .benefit-title {
-            font-size: 1.25rem;
-            margin-bottom: 15px;
-            color: var(--dark);
-        }
-        
-        .benefit-description {
-            color: var(--gray);
-            font-size: 0.95rem;
-        }
-        
-        /* Footer */
-        .footer {
-            background-color: var(--dark);
+
+        .agent-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 80px 0 30px;
-        }
-        
-        .footer__bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 30px;
+            padding: 25px;
+            border-radius: 15px;
             text-align: center;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
+            transition: transform 0.3s ease;
         }
-        
-        .footer__copyright {
+
+        .agent-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .agent-card h3 {
+            font-size: 1.3rem;
             margin-bottom: 10px;
         }
-        
-        .footer__update {
-            font-size: 0.8rem;
+
+        .agent-card p {
+            opacity: 0.9;
+            font-size: 0.9rem;
         }
-        
-        /* Responsive Styles */
-        @media (max-width: 992px) {
-            .features__grid,
-            .benefits-grid {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            }
+
+        .form-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
         }
-        
-        @media (max-width: 768px) {
-            .header__container {
-                flex-direction: column;
-                height: auto;
-                padding: 20px 0;
-            }
-            
-            .logo {
-                margin-bottom: 20px;
-            }
-            
-            .nav__list {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .nav__item {
-                margin: 10px 0;
-            }
-            
-            .hero {
-                padding-top: 200px;
-            }
-            
-            .hero__title {
-                font-size: 2.5rem;
-            }
-            
-            .section-title {
-                font-size: 2rem;
-            }
+
+        .form-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
         }
-        
-        @media (max-width: 480px) {
-            .hero__title {
-                font-size: 2rem;
-            }
-            
-            .hero__subtitle {
-                font-size: 1rem;
-            }
-            
-            .section-title {
-                font-size: 1.75rem;
-            }
-            
-            .feature-card,
-            .benefit-card {
-                padding: 20px;
-            }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .form-group input {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .btn {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .results-section {
+            background: #e8f5e8;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .results-section.show {
+            display: block;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            display: none;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: #28a745;
+            border-radius: 50%;
+            margin-right: 5px;
         }
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="container header__container">
-            <a href="#" class="logo">
-                <i class="fas fa-building"></i>
-                Framework Revolucionário
-            </a>
+    <div class="container">
+        <div class="header">
+            <h1>🏗️ WSS+13 Framework</h1>
+            <p>Ecossistema de 5 Agentes IA para Construção Civil</p>
+            <p><span class="status-indicator"></span>Sistema Online</p>
+        </div>
+
+        <div class="main-content">
+            <h2 style="text-align: center; margin-bottom: 30px;">🤖 Nossos Agentes Especializados</h2>
             
-            <nav class="nav">
-                <ul class="nav__list">
-                    <li class="nav__item"><a href="#" class="nav__link active">Início</a></li>
-                    <li class="nav__item"><a href="#features" class="nav__link">Recursos</a></li>
-                    <li class="nav__item"><a href="#benefits" class="nav__link">Benefícios</a></li>
-                    <li class="nav__item"><a href="#contact" class="nav__link">Contato</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-    
-    <section class="hero">
-        <div class="container hero__container">
-            <div class="hero__content">
-                <h1 class="hero__title">Framework Revolucionário para Construção Civil</h1>
-                <p class="hero__subtitle">Um ecossistema de agentes de IA que automatiza análises de projetos com precisão e eficiência sem precedentes.</p>
-                <div class="hero__buttons">
-                    <a href="#features" class="btn">Conheça os Recursos</a>
-                    <a href="#contact" class="btn btn-outline">Solicitar Demonstração</a>
+            <div class="agents-grid">
+                <div class="agent-card">
+                    <h3>🏗️ Breno Silva</h3>
+                    <p><strong>Engenheiro Estrutural</strong></p>
+                    <p>CREA-SP 123456/D</p>
+                    <p>25 anos de experiência</p>
+                </div>
+                
+                <div class="agent-card">
+                    <h3>💰 Paulo Mendes</h3>
+                    <p><strong>Analista Financeiro</strong></p>
+                    <p>CRC-SP 654321</p>
+                    <p>15 anos de experiência</p>
+                </div>
+                
+                <div class="agent-card">
+                    <h3>👷 José Silva</h3>
+                    <p><strong>Mestre de Obras</strong></p>
+                    <p>SINDUSCON-SP 789123</p>
+                    <p>20 anos de experiência</p>
+                </div>
+                
+                <div class="agent-card">
+                    <h3>⚠️ Ricardo Proteção</h3>
+                    <p><strong>Eng. Segurança</strong></p>
+                    <p>CREA-SP 456789/D</p>
+                    <p>18 anos de experiência</p>
+                </div>
+                
+                <div class="agent-card">
+                    <h3>💼 Helena Vendas</h3>
+                    <p><strong>Diretora Comercial</strong></p>
+                    <p>CRA-SP 987321</p>
+                    <p>12 anos de experiência</p>
                 </div>
             </div>
-        </div>
-    </section>
-    
-    <section id="features" class="features">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Recursos Poderosos</h2>
-                <p class="section-subtitle">Nosso framework combina tecnologias de ponta para transformar completamente o processo de análise de projetos na construção civil.</p>
+
+            <div class="form-section">
+                <h2>📊 Analisar Seu Projeto</h2>
+                <form id="projectForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="projectName">Nome do Projeto:</label>
+                            <input type="text" id="projectName" name="name" required placeholder="Ex: Residência Familiar">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="area">Área (m²):</label>
+                            <input type="number" id="area" name="area" required placeholder="Ex: 120" min="1">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="structuralLoad">Carga Estrutural (kN):</label>
+                            <input type="number" id="structuralLoad" name="structural_load" required placeholder="Ex: 600" min="1">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="soilTension">Tensão do Solo (kPa):</label>
+                            <input type="number" id="soilTension" name="soil_tension" required placeholder="Ex: 45" min="1">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="budget">Orçamento (R$) - Opcional:</label>
+                            <input type="number" id="budget" name="budget" placeholder="Ex: 300000" min="0">
+                        </div>
+                    </div>
+
+                    <div class="buttons-grid">
+                        <button type="button" class="btn btn-primary" onclick="analyzeAgent('structural')">
+                            🏗️ Análise Estrutural
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="analyzeAgent('financial')">
+                            💰 Análise Financeira
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="analyzeAgent('construction')">
+                            👷 Análise de Obra
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="analyzeAgent('safety')">
+                            ⚠️ Análise de Segurança
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="analyzeAgent('commercial')">
+                            💼 Análise Comercial
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="analyzeComplete()">
+                            🚀 Análise Completa (Todos os Agentes)
+                        </button>
+                    </div>
+                </form>
+
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>Processando análise...</p>
+                </div>
+
+                <div class="results-section" id="results">
+                    <h3>📋 Resultados da Análise</h3>
+                    <div id="resultsContent"></div>
+                </div>
             </div>
+
+            <div style="text-align: center; margin: 30px 0;">
+                <a href="/docs" class="btn btn-secondary">📚 Documentação da API</a>
+                <a href="/health" class="btn btn-secondary">🔍 Status do Sistema</a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Desenvolvido por <strong>Marcos Sea</strong></p>
+            <p>WSS+13 Framework - Revolucionando a Construção Civil com IA</p>
+        </div>
+    </div>
+
+    <script>
+        // Função para coletar dados do formulário
+        function getFormData() {
+            const form = document.getElementById('projectForm');
+            const formData = new FormData(form);
+            const data = {};
             
-            <div class="features__grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <h3 class="feature-title">Agentes IA Especializados</h3>
-                    <p class="feature-description">Cinco agentes de IA trabalhando em conjunto, cada um especializado em um aspecto crítico da análise de projetos de construção.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-tachometer-alt"></i>
-                    </div>
-                    <h3 class="feature-title">Análise Ultrarrápida</h3>
-                    <p class="feature-description">Reduza o tempo de análise em até 90%, permitindo decisões mais rápidas e maior produtividade.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <h3 class="feature-title">Conformidade Garantida</h3>
-                    <p class="feature-description">Garantia de 100% de conformidade com todas as normas NBR relevantes para construção civil.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <section class="benefits">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Benefícios Comprovados</h2>
-                <p class="section-subtitle">Nossos clientes experimentam resultados transformadores ao implementar o Framework Revolucionário.</p>
-            </div>
+            for (let [key, value] of formData.entries()) {
+                if (value) {
+                    data[key] = isNaN(value) ? value : Number(value);
+                }
+            }
             
-            <div class="benefits-grid">
-                <div class="benefit-card">
-                    <div class="benefit-number">90%</div>
-                    <h3 class="benefit-title">Redução no Tempo</h3>
-                    <p class="benefit-description">Análises completas em uma fração do tempo tradicional.</p>
-                </div>
-                
-                <div class="benefit-card">
-                    <div class="benefit-number">100%</div>
-                    <h3 class="benefit-title">Conformidade NBR</h3>
-                    <p class="benefit-description">Garantia de conformidade com todas as normas relevantes.</p>
-                </div>
-                
-                <div class="benefit-card">
-                    <div class="benefit-number">65%</div>
-                    <h3 class="benefit-title">Redução de Custos</h3>
-                    <p class="benefit-description">Economia significativa em recursos humanos e materiais.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <footer class="footer">
-        <div class="footer__bottom">
-            <div class="container">
-                <p class="footer__copyright">© 2025 Marcos Sea. Todos os direitos reservados.</p>
-                <p class="footer__update">Última atualização: 24/06/2025 22:45</p>
-            </div>
-        </div>
-    </footer>
+            return data;
+        }
+
+        // Função para mostrar loading
+        function showLoading() {
+            document.getElementById('loading').classList.add('show');
+            document.getElementById('results').classList.remove('show');
+        }
+
+        // Função para esconder loading
+        function hideLoading() {
+            document.getElementById('loading').classList.remove('show');
+        }
+
+        // Função para mostrar resultados
+        function showResults(data) {
+            hideLoading();
+            const resultsDiv = document.getElementById('results');
+            const contentDiv = document.getElementById('resultsContent');
+            
+            contentDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            resultsDiv.classList.add('show');
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Função para analisar com um agente específico
+        async function analyzeAgent(agentType) {
+            const data = getFormData();
+            
+            if (!data.name || !data.area || !data.structural_load || !data.soil_tension) {
+                alert('Por favor, preencha todos os campos obrigatórios!');
+                return;
+            }
+
+            showLoading();
+
+            try {
+                const response = await fetch(`/analyze/${agentType}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Erro: ${response.status}`);
+                }
+
+                const result = await response.json();
+                showResults(result);
+            } catch (error) {
+                hideLoading();
+                alert(`Erro na análise: ${error.message}`);
+            }
+        }
+
+        // Função para análise completa
+        async function analyzeComplete() {
+            const data = getFormData();
+            
+            if (!data.name || !data.area || !data.structural_load || !data.soil_tension) {
+                alert('Por favor, preencha todos os campos obrigatórios!');
+                return;
+            }
+
+            showLoading();
+
+            try {
+                const response = await fetch('/analyze/complete', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Erro: ${response.status}`);
+                }
+
+                const result = await response.json();
+                showResults(result);
+            } catch (error) {
+                hideLoading();
+                alert(`Erro na análise: ${error.message}`);
+            }
+        }
+
+        // Verificar status da API ao carregar a página
+        window.addEventListener('load', async function() {
+            try {
+                const response = await fetch('/health');
+                const health = await response.json();
+                console.log('API Status:', health);
+            } catch (error) {
+                console.error('API não está respondendo:', error);
+            }
+        });
+    </script>
 </body>
 </html>
